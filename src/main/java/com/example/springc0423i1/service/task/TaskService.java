@@ -1,6 +1,9 @@
 package com.example.springc0423i1.service.task;
 
 import com.example.springc0423i1.domain.Task;
+import com.example.springc0423i1.domain.TaskHistory;
+import com.example.springc0423i1.domain.enumration.TaskType;
+import com.example.springc0423i1.repository.TaskHistoryRepository;
 import com.example.springc0423i1.repository.TaskRepository;
 import com.example.springc0423i1.service.task.request.TaskSaveRequest;
 import com.example.springc0423i1.service.task.response.TaskListResponse;
@@ -9,7 +12,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,16 +24,28 @@ import java.util.stream.Collectors;
 public class TaskService {
     private final TaskRepository taskRepository;
 
+    private final TaskHistoryRepository taskHistoryRepository;
+
     public List<TaskListResponse> getTasks() {
 
-        return taskRepository.findAll()
+        return taskHistoryRepository.findDemo()
                 .stream()
                 .map(e -> AppUtil.mapper.map(e, TaskListResponse.class))
                 .collect(Collectors.toList());
     }
-    public void create(TaskSaveRequest request) {
-        var task = AppUtil.mapper.map(request, Task.class);
-        taskRepository.save(task);
-    }
 
+    public void create(TaskSaveRequest request) {
+        var taskHistory = AppUtil.mapper.map(request, TaskHistory.class);
+        if (Objects.equals(request.getType(), TaskType.DAILY.toString())) {
+            var task = AppUtil.mapper.map(request, Task.class);
+            task = taskRepository.save(task);
+            //create new task history for display in home screen
+            LocalDate now = LocalDateTime.now().toLocalDate();
+            taskHistory.setTask(task);
+            taskHistory.setStart(LocalDateTime.of(now, task.getStart()));
+            taskHistory.setEnd(LocalDateTime.of(now, task.getEnd()));
+        }
+
+        taskHistoryRepository.save(taskHistory);
+    }
 }

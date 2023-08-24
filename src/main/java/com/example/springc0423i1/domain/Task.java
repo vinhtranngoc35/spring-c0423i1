@@ -25,8 +25,6 @@ public class Task {
     private LocalTime start;
 
     private LocalTime end;
-// Học Java, Học C#  => Task daily
-    // Học Java, Học C# done, Seminar => Task History.
 
 
     @ManyToOne(fetch = FetchType.LAZY)

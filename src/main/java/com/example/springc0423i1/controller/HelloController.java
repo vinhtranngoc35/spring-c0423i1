@@ -1,9 +1,7 @@
 package com.example.springc0423i1.controller;
 
-import com.example.springc0423i1.service.UserService;
 import com.example.springc0423i1.service.auth.request.LoginRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,11 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/api")
 public class HelloController {
 
-    private final UserService userService;
 
-    public HelloController(UserService userService) {
-        this.userService = userService;
-    }
 
 
     @GetMapping("/{message}")

@@ -26,14 +26,31 @@ public class AppUtil {
         Converter<String, LocalDateTime> toStringDateTime = new AbstractConverter<>() {
             @Override
             protected LocalDateTime convert(String source) {
-                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-                return LocalDateTime.parse(source, format);
+                try{
+                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                    return LocalDateTime.parse(source, format);
+                }catch (Exception e){
+                    return null;
+                }
+
             }
         };
         Converter<LocalDateTime, LocalTime> toTimeDateTime = new AbstractConverter<>() {
             @Override
             protected LocalTime convert(LocalDateTime source) {
                 return source.toLocalTime();
+            }
+        };
+        Converter<String, LocalTime> toStringTime = new AbstractConverter<>() {
+            @Override
+            protected LocalTime convert(String source) {
+                try{
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                    return LocalTime.parse(source, formatter);
+                }catch (Exception e){
+                    return null;
+                }
+
             }
         };
 
@@ -45,5 +62,6 @@ public class AppUtil {
         mapper.addConverter(toStringDate);
         mapper.addConverter(toStringDateTime);
         mapper.addConverter(toTimeDateTime);
+        mapper.addConverter(toStringTime);
     }
 }
