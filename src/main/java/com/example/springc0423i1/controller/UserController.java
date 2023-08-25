@@ -65,12 +65,10 @@ public class UserController {
             userService.edit(user, id);
         }catch (Exception e){
             view.addObject("message", e.getMessage());
-            view.addObject("status", e.getMessage());
             view.addObject("user", user);
             view.addObject("genders", EGender.values());
             return view;
         }
-
         view.addObject("message", "Edited");
         view.addObject("user", user);
         view.addObject("genders", EGender.values());

@@ -9,6 +9,23 @@
     .table td {
         cursor: pointer;
     }
+    .DONE{
+        background: aquamarine;
+        border: aquamarine;
+        font-weight: bold;
+    }
+
+    .IN_PROGRESS{
+        background: darkslateblue;
+        border: darkslateblue;
+        color: whitesmoke;
+        font-weight: bold;
+    }
+    .DISMISS{
+        background: darkgrey;
+        border: darkgrey;
+        font-weight: bold;
+    }
 </style>
 <body>
 
@@ -47,10 +64,21 @@
                     Title.
                 </td>
                 <td th:text="${task.time}">
-                    Start.
+                    Time
                 </td>
-                <td th:text="${task.status}">
-                    Status.
+                <td>
+                    <label>
+                        <select th:class="${'form-control ' + task.status}"
+                                th:id="${task.id}"
+                                onchange="onChangeSelect(this) ">
+
+                            <option th:each="item : ${statuses}"
+                                    th:value="${item}"
+                                    th:selected="${task.status == item}"
+                                    th:text="${item.name}"></option>
+
+                        </select>
+                    </label>
                 </td>
                 <td th:text="${task.type}">
                     Type.
@@ -66,5 +94,10 @@
 
 
 <th:block th:insert="~{layout.html :: myScript}"></th:block>
+<script>
+    function onChangeSelect(e){
+        window.location.href = '/task/'+e.id+'/'+ e.value;
+    }
+</script>
 </body>
 </html>

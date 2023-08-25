@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -30,6 +31,12 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    // để xác định được OneToMany hay ManyToOne thì phải câu hỏi Task History thằng 1 nào thằng nhiều
+    // chữ đầu tiên đại diện cho class đang đứng
+    // chữ thứ 2 đại diện cho field bên dưới
+    @OneToMany(mappedBy = "task") // task ở đây được lấy name field task của TaskHistory
+    private Set<TaskHistory> taskHistories;
 
 
 }

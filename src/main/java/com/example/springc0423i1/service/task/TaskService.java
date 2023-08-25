@@ -2,11 +2,14 @@ package com.example.springc0423i1.service.task;
 
 import com.example.springc0423i1.domain.Task;
 import com.example.springc0423i1.domain.TaskHistory;
+import com.example.springc0423i1.domain.enumration.TaskStatus;
 import com.example.springc0423i1.domain.enumration.TaskType;
+import com.example.springc0423i1.exception.ResourceNotFoundException;
 import com.example.springc0423i1.repository.TaskHistoryRepository;
 import com.example.springc0423i1.repository.TaskRepository;
 import com.example.springc0423i1.service.task.request.TaskSaveRequest;
 import com.example.springc0423i1.service.task.response.TaskListResponse;
+import com.example.springc0423i1.util.AppMessage;
 import com.example.springc0423i1.util.AppUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +31,7 @@ public class TaskService {
 
     public List<TaskListResponse> getTasks() {
 
-        return taskHistoryRepository.findDemo()
+        return taskHistoryRepository.findAllTaskToDay()
                 .stream()
                 .map(e -> AppUtil.mapper.map(e, TaskListResponse.class))
                 .collect(Collectors.toList());
@@ -47,5 +50,17 @@ public class TaskService {
         }
 
         taskHistoryRepository.save(taskHistory);
+    }
+
+    public void changeStatus(Long id, TaskStatus status){
+        var task = findById(id);
+        task.setStatus(status);
+        taskHistoryRepository.save(task);
+    }
+
+    public TaskHistory findById(Long id){
+        return taskHistoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(AppMessage.ID_NOT_FOUND, "Task", id)));
     }
 }

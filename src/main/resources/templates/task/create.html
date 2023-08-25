@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<div class="container-fluid card">
-  <h3>Create Task  </h3>
+<div class="container card pt-5 pb-5">
+  <h3 class="title">Create Task  </h3>
   <form th:object="${task}" action="/task/create" method="post">
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
