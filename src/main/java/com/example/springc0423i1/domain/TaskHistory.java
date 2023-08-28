@@ -30,7 +30,7 @@ public class TaskHistory {
     @Enumerated(value = EnumType.STRING)
     private TaskType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     private Task task;
 

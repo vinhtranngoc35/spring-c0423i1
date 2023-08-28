@@ -6,8 +6,8 @@
 </head>
 <body>
 <div class="container card pt-5 pb-5">
-    <h3 class="title">Create Task </h3>
-    <form th:object="${task}" action="/task/create" method="post">
+    <h3 class="title">Edit Task </h3>
+    <form th:object="${task}" th:action="@{/task/edit/{id}(id=${task.id})}" method="post">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" th:field="*{title}" required>
@@ -31,43 +31,34 @@
             <div id="daily">
                 <div class="mb-3">
                     <label for="start" class="form-label">Start</label>
-                    <input type="time" class="form-control" id="start" name="start" th:field="*{start}">
+                    <input th:type="${task.type.toString() == 'DAILY' ? 'time' : 'datetime-local' }" class="form-control" id="start" name="start" th:value="${task.getStartTime()}">
                 </div>
                 <div class="mb-3">
                     <label for="end" class="form-label">End</label>
-                    <input type="time" class="form-control" id="end" name="end" th:field="*{end}">
+                    <input  th:type="${task.type.toString() == 'DAILY' ? 'time' : 'datetime-local' }" class="form-control" id="end" name="end" th:value="${task.getEndTime()}">
                 </div>
             </div>
         </div>
 
         <div class="mb-3">
             <label for="type" class="form-label">Type</label>
-            <select onchange="onChange(this)" class="form-control" id="type" name="type" th:field="*{type}">
-                <option th:each="type : ${taskTypes}" th:value="${type}" th:text="${type}"></option>
-            </select>
+            <input class="form-control" id="type" disabled th:value="${task.type}">
         </div>
-        <div>
+        <div class="mb-3">
 
+            <input class="form-check-input" type="radio" id="isEditAll" name="isEditAll" value="true"/>
+            <label for="isEditAll" class="form-check-label">Edit All</label>
+
+            <input class="form-check-input" type="radio" id="isEditToday" name="isEditAll" value="false"/>
+            <label for="isEditToday" class="form-check-label">Edit For Today</label>
         </div>
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Create</button>
-        <a href="/task" class="btn btn-warning mr-10"><i class="fa-solid fa-left-long"></i> Back</a>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Edit Task</button>
+        <a href="/task" class="btn btn-primary"><i class="fa-solid fa-left-long"></i> Back</a>
     </form>
 </div>
 <th:block th:insert="~{layout.html :: myScript}"></th:block>
 <script th:inline="javascript">
-    const task = [[${task}]];
-    const start = document.getElementById('start');
-    const end = document.getElementById('end');
-    console.log(task);
-    function onChange(e) {
-        if (e.value === 'DAILY') {
-            start.type = 'time';
-            end.type = 'time';
-        } else {
-            start.type = 'datetime-local'
-            end.type = 'datetime-local'
-        }
-    }
+
 </script>
 </body>
 </html>

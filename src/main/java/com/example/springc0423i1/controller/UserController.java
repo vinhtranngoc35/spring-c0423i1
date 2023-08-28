@@ -4,9 +4,11 @@ import com.example.springc0423i1.domain.enumration.EGender;
 import com.example.springc0423i1.service.user.UserService;
 import com.example.springc0423i1.service.user.request.UserEditRequest;
 import com.example.springc0423i1.service.user.request.UserSaveRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,12 +28,19 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ModelAndView showCreate(@ModelAttribute UserSaveRequest user){
+    public ModelAndView showCreate(@ModelAttribute @Valid UserSaveRequest user, BindingResult bindingResult){
         ModelAndView view = new ModelAndView("user/create");
-        userService.create(user);
+        if(bindingResult.hasErrors()){
+            view.addObject("user", user);
+            view.addObject("genders", EGender.values());
+            view.addObject("bindingResult", bindingResult);
+            return view;
+        }
         view.addObject("message", "Created");
         view.addObject("user", new UserSaveRequest());
         view.addObject("genders", EGender.values());
+        userService.create(user);
+
         return view;
     }
 
