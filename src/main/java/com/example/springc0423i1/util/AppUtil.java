@@ -64,4 +64,11 @@ public class AppUtil {
         mapper.addConverter(toTimeDateTime);
         mapper.addConverter(toStringTime);
     }
+
+
+    public static LocalDateTime parseLocalDateTime(String dateStr, String timeStr){
+        LocalDate date = LocalDate.parse(dateStr);
+        LocalTime time = LocalTime.parse(timeStr);
+        return LocalDateTime.of(date, time);
+    }
 }

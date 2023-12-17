@@ -58,7 +58,7 @@
                 </td>
             </tr>
             <tr th:each="task, iter : ${tasks}">
-                <td th:text="${iter.index + 1}">
+                <td th:text="${iter + 1}">
                 </td>
                 <td th:text="${task.title}" th:title="${task.description}">
                     Title.

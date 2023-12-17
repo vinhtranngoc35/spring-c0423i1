@@ -1,13 +1,9 @@
 package com.example.springc0423i1.domain;
 
-import com.example.springc0423i1.domain.enumration.TaskStatus;
-import com.example.springc0423i1.domain.enumration.TaskType;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -23,6 +19,12 @@ public class Task {
 
     private String description;
 
+    private Long repeatPerDays;
+
+    private String repeatDayOfWeek;
+
+    private LocalDate date;
+
     private LocalTime start;
 
     private LocalTime end;
@@ -31,6 +33,10 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Category category;
 
     // để xác định được OneToMany hay ManyToOne thì phải câu hỏi Task History thằng 1 nào thằng nhiều
     // chữ đầu tiên đại diện cho class đang đứng

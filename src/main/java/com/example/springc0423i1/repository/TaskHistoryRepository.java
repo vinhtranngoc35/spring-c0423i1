@@ -12,8 +12,11 @@ import java.util.List;
 public interface TaskHistoryRepository extends JpaRepository<TaskHistory, Long> {
 
     @Query(value = "SELECT t  FROM TaskHistory t WHERE  " +
-            "(DATE_FORMAT(t.start, '%Y-%m-%d') <= DATE_FORMAT(:date, '%Y-%m-%d') AND " +
-            "DATE_FORMAT(t.end, '%Y-%m-%d') >= DATE_FORMAT(:date, '%Y-%m-%d'))" +
-            "ORDER BY t.start" )
+            "DATE_FORMAT(t.start, '%Y-%m-%d') = DATE_FORMAT(:date, '%Y-%m-%d') " +
+            "ORDER BY t.start")
     List<TaskHistory> findAllTaskToDay(LocalDate date);
+
+
+    @Query(value = "SELECT MAX(t.start) FROM TaskHistory t WHERE t.task.id != null")
+    LocalDate findMaxDate();
 }

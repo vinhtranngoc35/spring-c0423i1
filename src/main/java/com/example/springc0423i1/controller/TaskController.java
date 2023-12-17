@@ -63,8 +63,6 @@ public class TaskController {
     public String showEdit(@ModelAttribute TaskEditRequest task, @PathVariable Long id) {
 
         taskService.edit(task, id);
-
-
         return "redirect:/task?message=Edited";
     }
 

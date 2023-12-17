@@ -5,6 +5,7 @@ import com.example.springc0423i1.domain.enumration.TaskType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
@@ -16,15 +17,15 @@ public class TaskListResponse {
 
     private String description;
 
-    private LocalTime start;
+    private LocalDate date;
 
-    private LocalTime end;
+    private LocalTime start;
 
     private TaskStatus status;
 
     private TaskType type;
 
-    public String getTime(){
-        return start.toString() + " - " + end;
-    }
+    private String category;
+
+    private int repeatPerDays;
 }

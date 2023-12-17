@@ -34,6 +34,10 @@ public class TaskHistory {
     @JoinColumn(name = "task_id")
     private Task task;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Category category;
+
     @PrePersist
     public void setupBeforeInsert(){
         status = TaskStatus.TODO;

@@ -1,25 +1,27 @@
 package com.example.springc0423i1.service.task.request;
 
-import com.example.springc0423i1.domain.enumration.TaskStatus;
 import com.example.springc0423i1.domain.enumration.TaskType;
+import com.example.springc0423i1.service.dto.SelectOptionRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class TaskSaveRequest {
+public class TaskSaveApiRequest {
 
     private String title;
 
     private String description;
 
-    private Time start;
+    private String start;
 
-    private Time end;
+    private String time;
 
-    private TaskType type;
+    private String repeatPerDays;
 
+    private String repeatDayOfWeek;
+
+    private SelectOptionRequest category;
 }
