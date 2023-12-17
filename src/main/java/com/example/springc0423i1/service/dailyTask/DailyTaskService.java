@@ -6,6 +6,8 @@ import com.example.springc0423i1.service.task.request.TaskSaveApiRequest;
 import com.example.springc0423i1.service.task.request.TaskSaveRequest;
 import com.example.springc0423i1.service.task.response.TaskListResponse;
 import com.example.springc0423i1.util.AppUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,11 +27,9 @@ public class DailyTaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<TaskListResponse> findAll(String search){
-        return taskRepository.findTasksByDescriptionContainingOrTitleContaining(search, search)
-                .stream()
-                .map(e -> AppUtil.mapper.map(e, TaskListResponse.class))
-                .collect(Collectors.toList());
+    public Page<TaskListResponse> findAll(String search, Pageable pageable){
+        return taskRepository.findTasksByDescriptionContainingOrTitleContaining(search, search, pageable)
+                .map(e -> AppUtil.mapper.map(e, TaskListResponse.class));
     }
 
 
